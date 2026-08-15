@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="vélo, Saint-Chinian, cyclisme, club de vélo, compétitions vélo, course vélo">
+    <title>Compétitions - Vélo Club Saint-Chinian</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Force l'affichage entier des photos sans les couper/rogner */
+        .sortie-photo {
+            object-fit: contain !important;
+            width: 100% !important;
+            max-height: 450px !important;
+            height: auto !important;
+            background-color: #f8f9fa; /* Fond neutre si la photo a un ratio différent */
+            border-radius: 8px;
+        }
+        .sortie-photo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="../assets/images/logo 1.jpeg" alt="Logo" class="nav-logo-image">
+                <a href="../index.html" class="nav-logo"><i class="fa-solid fa-bicycle"></i> VC St-Chinian</a>
+                <img src="../assets/images/logo 2.jpeg" alt="Logo" class="nav-logo-image">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Accueil</a></li>
+                <li><a href="evenements.html">Événements</a></li>
+                <li><a href="competitions.html">Compétitions</a></li>
+                <li><a href="sorties-exceptionnelles.html">Sorties exceptionnelles</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Résultats & Compétitions</h2>
+            <div id="competitions-container"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2026 Vélo Club Saint-Chinian. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="../data/competitions.js"></script>
+
+    <script>
+        function normalizePhotoPath(photo) {
+            if (!photo) return '';
+            let cleaned = String(photo).trim().replace(/^['"]|['"]$/g, '');
+            cleaned = cleaned.replace(/\\/g, '/');
+
+            if (!cleaned) return '';
+
+            if (/^[a-zA-Z]:\//.test(cleaned) || 
+                cleaned.startsWith('http://') || 
+                cleaned.startsWith('https://') || 
+                cleaned.startsWith('/')) {
+                return cleaned;
+            }
+
+            if (cleaned.startsWith('../') || cleaned.startsWith('./')) {
+                return cleaned;
+            }
+
+            if (cleaned.startsWith('assets/')) {
+                return `../${cleaned}`;
+            }
+
+            return `../assets/images/${cleaned}`;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("competitions-container");
+            const data = window.competitionsData || [];
+            
+            if (!container) return;
+
+            if (!data.length) {
+                container.innerHTML = `
+                    <div class="pdf-card">
+                        <p style="text-align:center;">Aucune compétition enregistrée pour le moment.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = data.map((competition, index) => {
+                const photos = Array.isArray(competition.photos) ? competition.photos : [];
+                const visiblePhotos = photos.slice(0, 2);
+                const hiddenPhotos = photos.slice(2);
+                const remaining = hiddenPhotos.length;
+
+                return `
+                    <article class="pdf-card sortie-card">
+                        <div class="sortie-header">
+                            <h3 style="color:#1f4e79; font-size:1.5rem;">${competition.nom || 'Compétition'}</h3>
+                            <p class="sortie-date" style="font-weight:bold; color:#666;">${competition.date || ''}</p>
+                        </div>
+                        
+                        ${competition.description ? `<p style="margin-bottom:15px;">${competition.description}</p>` : ''}
+
+                        <div class="sortie-photos">
+                            ${visiblePhotos.map((photo, pIdx) => `
+                                <div class="sortie-photo-wrapper">
+                                    <img src="${normalizePhotoPath(photo)}" 
+                                         alt="Photo ${index + 1}-${pIdx + 1}" 
+                                         class="sortie-photo"
+                                         onerror="this.onerror=null; this.src='../assets/images/image 1.jpeg';">
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        ${remaining > 0 ? `
+                            <div class="photos-supplementaires" style="display:none; margin-top:12px;">
+                                <div class="sortie-photos">
+                                    ${hiddenPhotos.map((photo, pIdx) => `
+                                        <div class="sortie-photo-wrapper">
+                                            <img src="${normalizePhotoPath(photo)}" 
+                                                 alt="Photo ${index + 1}-${pIdx + 3}" 
+                                                 class="sortie-photo"
+                                                 onerror="this.onerror=null; this.src='../assets/images/image 1.jpeg';">
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <button class="btn-pdf" type="button" onclick="togglePhotos(this)" style="margin-top:15px; cursor:pointer;">
+                                <i class="fa-solid fa-images"></i> Voir plus (${remaining})
+                            </button>
+                        ` : ''}
+                    </article>
+                `;
+            }).join('');
+        });
+
+        function togglePhotos(button) {
+            const card = button.closest('.sortie-card');
+            const extra = card.querySelector('.photos-supplementaires');
+            if (!extra) return;
+            
+            const isVisible = extra.style.display === 'block';
+            extra.style.display = isVisible ? 'none' : 'block';
+            button.innerHTML = isVisible ? 
+                `<i class="fa-solid fa-images"></i> Voir plus` : 
+                `<i class="fa-solid fa-eye-slash"></i> Masquer`;
+        }
+    </script>
+</body>
+</html>
