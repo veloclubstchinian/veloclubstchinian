@@ -211,5 +211,32 @@
     <script src="data/circuits_favoris.js"></script>
     <script src="assets/js/evenements.js"></script>
     <script src="assets/js/script.js"></script>
+    <script>
+        // Menu mobile (hamburger)
+        (function () {
+            const toggle = document.getElementById('mobile-menu');
+            const menu = document.querySelector('.nav-menu');
+            if (!toggle || !menu) return;
+
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+                menu.classList.toggle('active');
+            });
+
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    toggle.classList.remove('active');
+                    menu.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+                    toggle.classList.remove('active');
+                    menu.classList.remove('active');
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
