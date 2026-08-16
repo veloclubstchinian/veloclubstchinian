@@ -40,6 +40,11 @@
                 <li><a href="competitions.html">Compétitions</a></li>
                 <li><a href="sorties-exceptionnelles.html">Sorties exceptionnelles</a></li>
             </ul>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
     </nav>
 
@@ -142,6 +147,32 @@
                 `<i class="fa-solid fa-images"></i> Voir plus` : 
                 `<i class="fa-solid fa-eye-slash"></i> Masquer`;
         }
+
+        // Menu mobile (hamburger)
+        (function () {
+            const toggle = document.getElementById('mobile-menu');
+            const menu = document.querySelector('.nav-menu');
+            if (!toggle || !menu) return;
+
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+                menu.classList.toggle('active');
+            });
+
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    toggle.classList.remove('active');
+                    menu.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+                    toggle.classList.remove('active');
+                    menu.classList.remove('active');
+                }
+            });
+        })();
     </script>
 </body>
 </html>
