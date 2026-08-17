@@ -8,7 +8,9 @@ const evenementsData = [
   {
     "nom": "XC",
     "date": "DIMANCHE 27 SEPTEMBRE 2026",
-    "photos": []
+    "photos": [
+      "assets/images/uploads/XCO 2026.PNG"
+    ]
   },
   {
     "nom": "MARCHE DE NOEL SAINT CHINIAN",
