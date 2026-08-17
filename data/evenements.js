@@ -9,8 +9,8 @@ const evenementsData = [
     "nom": "XCO",
     "date": "27 SEPTEMBRE 2026",
     "photos": [
-      "assets/images/uploads/VELO CLUB ST CHINIAN_1.jpg",
-      "assets/images/uploads/XCO 2026_2.JPG"
+      "assets/images/EVENEMENT/VELO CLUB ST CHINIAN.jpg",
+      "assets/images/EVENEMENT/XCO 2026.JPG"
     ]
   },
   {
