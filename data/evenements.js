@@ -9,7 +9,7 @@ const evenementsData = [
     "nom": "XC",
     "date": "DIMANCHE 27 SEPTEMBRE 2026",
     "photos": [
-      "assets/images/uploads/XCO 2026.PNG"
+      "assets/images/uploads/XCO 2026_1.JPG"
     ]
   },
   {
