@@ -6,10 +6,11 @@ const evenementsData = [
     "description": "DANS LE CLOITRE DE 9 H A 12 H"
   },
   {
-    "nom": "XC",
-    "date": "DIMANCHE 27 SEPTEMBRE 2026",
+    "nom": "XCO",
+    "date": "27 SEPTEMBRE 2026",
     "photos": [
-      "assets/images/EVENEMENT/XCO 2026.JPG"
+      "assets/images/uploads/VELO CLUB ST CHINIAN_1.jpg",
+      "assets/images/uploads/XCO 2026_2.JPG"
     ]
   },
   {
